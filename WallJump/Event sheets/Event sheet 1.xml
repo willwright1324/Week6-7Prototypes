@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="0" name="firstSpike" sid="966879588010193" static="0" type="number">0</variable>
+        <variable constant="0" name="spikeCount" sid="955450355019248" static="0" type="number">0</variable>
+        <variable constant="0" name="forAmount" sid="985603740254907" static="0" type="number">0</variable>
+        <variable constant="0" name="randomSpike" sid="199259464696484" static="0" type="number">0</variable>
+        <variable constant="1" name="WALL_JUMP_POWER" sid="129837048328669" static="0" type="number">1800</variable>
+        <variable constant="0" name="clinging" sid="224356267386729" static="0" type="number">1</variable>
+        <comment>Initialize Cling detection</comment>
+        <event-block sid="589397237067796">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="466317984658509" type="System" />
+            </conditions>
+            <actions>
+                <action behavior="Pin" id="0" name="Pin to object" sid="406895892872859" type="ClingCheck">
+                    <param id="0" name="Pin to">Player</param>
+                    <param id="1" name="Mode">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="878809896755067">
+            <conditions>
+                <condition behavior="Platform" id="2" name="Is on floor" sid="413990044922895" type="Player" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="279895266023409" type="System">
+                    <param id="0" name="Variable">clinging</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <comment>Jump away from the wall</comment>
+        <event-block sid="743477805850454">
+            <conditions>
+                <condition id="0" name="On key pressed" sid="520531290069512" type="Keyboard">
+                    <param id="0" name="Key">32</param>
+                </condition>
+                <condition id="-14" name="Compare variable" sid="212080870580595" type="System">
+                    <param id="0" name="Variable">clinging</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">1</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Platform" id="9" name="Set vector Y" sid="847284194546015" type="Player">
+                    <param id="0" name="Vector Y">-800</param>
+                </action>
+                <action id="-2" name="Set Y" sid="544724779660225" type="FloorPlat">
+                    <param id="0" name="Y">LayoutHeight + 200</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="584565148793729">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="490145174182759" type="ClingCheck">
+                            <param id="0" name="Object">WallL</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="8" name="Set vector X" sid="946449028394599" type="Player">
+                            <param id="0" name="Vector X">WALL_JUMP_POWER</param>
+                        </action>
+                        <action id="-16" name="Wait" sid="140285435029824" type="System">
+                            <param id="0" name="Seconds">0.01</param>
+                        </action>
+                        <action behavior="Platform" id="6" name="Set max fall speed" sid="223683964924824" type="Player">
+                            <param id="0" name="Max fall speed">1000</param>
+                        </action>
+                        <action id="7" name="Set mirrored" sid="701613902947058" type="Player">
+                            <param id="0" name="State">1</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="175468613190373" type="System">
+                            <param id="0" name="Variable">clinging</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="245887397419430">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="946041264068042" type="ClingCheck">
+                            <param id="0" name="Object">WallR</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="8" name="Set vector X" sid="181256476186701" type="Player">
+                            <param id="0" name="Vector X">-WALL_JUMP_POWER</param>
+                        </action>
+                        <action id="-16" name="Wait" sid="615868923889349" type="System">
+                            <param id="0" name="Seconds">0.01</param>
+                        </action>
+                        <action id="7" name="Set mirrored" sid="236302436137959" type="Player">
+                            <param id="0" name="State">0</param>
+                        </action>
+                        <action behavior="Platform" id="6" name="Set max fall speed" sid="113917996465402" type="Player">
+                            <param id="0" name="Max fall speed">1000</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="196057739423465" type="System">
+                            <param id="0" name="Variable">clinging</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <comment>Allows sliding down wall</comment>
+        <event-block sid="593502416678998">
+            <conditions>
+                <condition id="1" name="Is overlapping another object" sid="585390353676768" type="ClingCheck">
+                    <param id="0" name="Object">WallL</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="249190543235581" type="System">
+                    <param id="0" name="Variable">clinging</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="7" name="Set mirrored" sid="796724644382930" type="Player">
+                    <param id="0" name="State">1</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="676217196458809">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="155170876779184" type="Keyboard">
+                            <param id="0" name="Key">37</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="6" name="Set max fall speed" sid="579018005375548" type="Player">
+                            <param id="0" name="Max fall speed">100</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="863683892358459">
+                    <conditions>
+                        <condition id="2" inverted="1" name="Key is down" sid="275042672367858" type="Keyboard">
+                            <param id="0" name="Key">37</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="6" name="Set max fall speed" sid="366166087169084" type="Player">
+                            <param id="0" name="Max fall speed">1000</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="267660727525075">
+            <conditions>
+                <condition id="1" name="Is overlapping another object" sid="602733417787429" type="ClingCheck">
+                    <param id="0" name="Object">WallR</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="747496845192272" type="System">
+                    <param id="0" name="Variable">clinging</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="7" name="Set mirrored" sid="106509591023441" type="Player">
+                    <param id="0" name="State">0</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="378464114065015">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="214007317986811" type="Keyboard">
+                            <param id="0" name="Key">39</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="6" name="Set max fall speed" sid="161642321086479" type="Player">
+                            <param id="0" name="Max fall speed">100</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="872189884088388">
+                    <conditions>
+                        <condition id="2" inverted="1" name="Key is down" sid="872911552136333" type="Keyboard">
+                            <param id="0" name="Key">39</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Platform" id="6" name="Set max fall speed" sid="591537184656308" type="Player">
+                            <param id="0" name="Max fall speed">1000</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <comment>Move left and right</comment>
+        <event-block sid="724849878029721">
+            <conditions>
+                <condition id="2" name="Key is down" sid="722290523640191" type="Keyboard">
+                    <param id="0" name="Key">37</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Platform" id="7" name="Simulate control" sid="274711920827570" type="Player">
+                    <param id="0" name="Control">0</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="675892671388265">
+                    <conditions>
+                        <condition id="1" inverted="1" name="Is overlapping another object" sid="320738697282505" type="ClingCheck">
+                            <param id="0" name="Object">WallL</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="7" name="Set mirrored" sid="752942935336454" type="Player">
+                            <param id="0" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="826573955862541">
+            <conditions>
+                <condition id="2" name="Key is down" sid="777563759895496" type="Keyboard">
+                    <param id="0" name="Key">39</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Platform" id="7" name="Simulate control" sid="920951078580023" type="Player">
+                    <param id="0" name="Control">1</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="924058780234788">
+                    <conditions>
+                        <condition id="1" inverted="1" name="Is overlapping another object" sid="821296619124160" type="ClingCheck">
+                            <param id="0" name="Object">WallR</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="7" name="Set mirrored" sid="781348086187510" type="Player">
+                            <param id="0" name="State">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <comment>Spawn random amount of spikes on a random wall</comment>
+        <event-block sid="142823553881280">
+            <conditions>
+                <condition id="-6" name="Every X seconds" sid="781650507831367" type="System">
+                    <param id="0" name="Interval (seconds)">2</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="211372571537292" type="System">
+                    <param id="0" name="Variable">randomSpike</param>
+                    <param id="1" name="Value">round(random(0, 1))</param>
+                </action>
+                <action id="-9" name="Set value" sid="776055155306810" type="System">
+                    <param id="0" name="Variable">spikeCount</param>
+                    <param id="1" name="Value">round(random(1, 3))</param>
+                </action>
+                <action id="-9" name="Set value" sid="706060007039175" type="System">
+                    <param id="0" name="Variable">firstSpike</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="918285633077533">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="411768923723264" type="System">
+                            <param id="0" name="Variable">spikeCount</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="631433144003882" type="System">
+                            <param id="0" name="Variable">forAmount</param>
+                            <param id="1" name="Value">spikeCount</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="678718223831932">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="731334811958711" type="System">
+                            <param id="0" name="Variable">spikeCount</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="753761561622820" type="System">
+                            <param id="0" name="Variable">forAmount</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="716544244065560">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="468163277681930" type="System">
+                                    <param id="0" name="Variable">randomSpike</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="597626662319862" type="System">
+                                    <param id="0" name="Object to create">Spike</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">WallL.Width / 2 + Spike.Width / 2</param>
+                                    <param id="3" name="Y">-50</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="429960666728381">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="124047194085901" type="System">
+                                    <param id="0" name="Variable">randomSpike</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="821828938534051" type="System">
+                                    <param id="0" name="Object to create">Spike</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">LayoutWidth - WallR.Width / 2 - Spike.Width / 2</param>
+                                    <param id="3" name="Y">-50</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="741005269379439" type="Spike">
+                                    <param id="0" name="Angle">180</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="622430100336028">
+            <conditions>
+                <condition id="-18" name="On created" sid="485640651959562" type="Spike" />
+            </conditions>
+            <actions>
+                <action behavior="Bullet" id="3" name="Set angle of motion" sid="106460665184147" type="Spike">
+                    <param id="0" name="Angle">90</param>
+                </action>
+                <action behavior="Bullet" id="5" name="Set enabled" sid="235196854723685" type="Spike">
+                    <param id="0" name="State">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="364811074642617">
+            <conditions>
+                <condition id="-14" name="Compare variable" sid="945949784498635" type="System">
+                    <param id="0" name="Variable">forAmount</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="239755439835038">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="886703081341085" type="System">
+                            <param id="0" name="Variable">firstSpike</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="908563823065280">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="599972301632514" type="System">
+                                    <param id="0" name="Variable">randomSpike</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="817882130538960" type="System">
+                                    <param id="0" name="Object to create">Spike</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">WallL.Width / 2 + Spike.Width / 2</param>
+                                    <param id="3" name="Y">-50</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="832426601071691" type="System">
+                                    <param id="0" name="Variable">firstSpike</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="236667531700380">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="621112293064651" type="System">
+                                    <param id="0" name="Variable">randomSpike</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="184137772821057" type="System">
+                                    <param id="0" name="Object to create">Spike</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">LayoutWidth - WallR.Width / 2 - Spike.Width / 2</param>
+                                    <param id="3" name="Y">-50</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="183243281657284" type="Spike">
+                                    <param id="0" name="Angle">180</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="830279379624832" type="System">
+                                    <param id="0" name="Variable">firstSpike</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="853042160299078">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="597754895371819" type="System">
+                            <param id="0" name="Variable">firstSpike</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="810874212937526">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="290647209945870" type="System">
+                                    <param id="0" name="Variable">randomSpike</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                                <condition id="-13" name="Pick nth instance" sid="652887077438670" type="System">
+                                    <param id="0" name="Object">Spike</param>
+                                    <param id="1" name="Instance">Spike.Count - 1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-11" name="Subtract from" sid="628874963522221" type="System">
+                                    <param id="0" name="Variable">forAmount</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                                <action id="-3" name="Create object" sid="293798995465992" type="System">
+                                    <param id="0" name="Object to create">Spike</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">WallL.Width / 2 + Spike.Width / 2</param>
+                                    <param id="3" name="Y">Spike.Y - Spike.Height</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="993946415767152">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="144422267535411" type="System">
+                                    <param id="0" name="Variable">randomSpike</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                                <condition id="-13" name="Pick nth instance" sid="517147030406959" type="System">
+                                    <param id="0" name="Object">Spike</param>
+                                    <param id="1" name="Instance">Spike.Count - 1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-11" name="Subtract from" sid="444510279195346" type="System">
+                                    <param id="0" name="Variable">forAmount</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                                <action id="-3" name="Create object" sid="982365015820830" type="System">
+                                    <param id="0" name="Object to create">Spike</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">LayoutWidth - WallR.Width / 2 - Spike.Width / 2</param>
+                                    <param id="3" name="Y">Spike.Y - Spike.Height</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="106009229638522" type="Spike">
+                                    <param id="0" name="Angle">180</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <comment>Destroy unseen spikes</comment>
+        <event-block sid="238420615967120">
+            <conditions>
+                <condition id="-2" name="Compare Y" sid="395597708178106" type="Spike">
+                    <param id="0" name="Comparison">4</param>
+                    <param id="1" name="Y co-ordinate">LayoutHeight + 50</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" sid="957384782767428" type="Spike" />
+            </actions>
+        </event-block>
+        <comment>Player dies</comment>
+        <event-block any="1" sid="289674028421126">
+            <conditions>
+                <condition id="0" name="On collision with another object" sid="837055599872718" type="Player">
+                    <param id="0" name="Object">Spike</param>
+                </condition>
+                <condition id="-2" name="Compare Y" sid="675324298360616" type="Player">
+                    <param id="0" name="Comparison">4</param>
+                    <param id="1" name="Y co-ordinate">LayoutHeight + 50</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-2" name="Set Y" sid="617321853649356" type="FloorPlat">
+                    <param id="0" name="Y">1274</param>
+                </action>
+                <action id="-21" name="Reset global variables" sid="808142685932035" type="System" />
+                <action id="-26" name="Restart layout" sid="580028356799158" type="System" />
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>

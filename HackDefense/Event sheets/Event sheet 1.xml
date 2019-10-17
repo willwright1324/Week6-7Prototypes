@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="0" name="health" sid="431086274839737" static="0" type="number">5</variable>
+        <variable constant="0" name="spawnRate" sid="626423837604323" static="0" type="number">5</variable>
+        <variable constant="1" name="STRING_LIMIT" sid="399427486861363" static="0" type="number">10</variable>
+        <variable constant="0" name="randomText" sid="894981473166626" static="0" type="text"></variable>
+        <variable constant="0" name="checkText" sid="489498689864168" static="0" type="text"></variable>
+        <variable constant="0" name="forLimit" sid="670041199811145" static="0" type="number">0</variable>
+        <variable constant="0" name="stringLength" sid="968747584467167" static="0" type="number">0</variable>
+        <variable constant="0" name="randomLength" sid="781841594541232" static="0" type="number">0</variable>
+        <comment>Creates a random Enemy text</comment>
+        <event-block sid="155783757555733">
+            <conditions>
+                <condition id="-6" name="Every X seconds" sid="319354683065867" type="System">
+                    <param id="0" name="Interval (seconds)">spawnRate</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="908250592600666" type="System">
+                    <param id="0" name="Variable">randomLength</param>
+                    <param id="1" name="Value">random(3, 10)</param>
+                </action>
+                <action id="-9" name="Set value" sid="499592719149691" type="System">
+                    <param id="0" name="Variable">forLimit</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+                <action id="-16" name="Wait" sid="838958122213357" type="System">
+                    <param id="0" name="Seconds">1.0</param>
+                </action>
+                <action id="-3" name="Create object" sid="138923723272416" type="System">
+                    <param id="0" name="Object to create">Enemy</param>
+                    <param id="1" name="Layer">0</param>
+                    <param id="2" name="X">LayoutWidth + 100</param>
+                    <param id="3" name="Y">random(30, LayoutHeight - 30)</param>
+                </action>
+                <action id="-9" name="Set value" sid="354899373506643" type="System">
+                    <param id="0" name="Variable">randomText</param>
+                    <param id="1" name="Value">&quot;&quot;</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="237383654504858">
+            <conditions>
+                <condition id="-14" name="Compare variable" sid="503785236900204" type="System">
+                    <param id="0" name="Variable">forLimit</param>
+                    <param id="1" name="Comparison">2</param>
+                    <param id="2" name="Value">randomLength</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="259259260767766">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="275655904797065" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="340203319092249" type="System">
+                            <param id="0" name="Variable">randomText</param>
+                            <param id="1" name="Value">randomText &amp; choose(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;, &quot;H&quot;, &quot;I&quot;, &quot;J&quot;, &quot;K&quot;, &quot;L&quot;, &quot;M&quot;, &quot;N&quot;, &quot;O&quot;, &quot;P&quot;, &quot;Q&quot;, &quot;R&quot;, &quot;S&quot;, &quot;T&quot;, &quot;U&quot;, &quot;V&quot;, &quot;W&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)</param>
+                        </action>
+                        <action id="-10" name="Add to" sid="976024874376961" type="System">
+                            <param id="0" name="Variable">forLimit</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="686921931181876">
+            <conditions>
+                <condition id="-18" name="On created" sid="717647683582943" type="Enemy" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="807529257900057" type="Enemy">
+                    <param id="0" name="Text">randomText</param>
+                </action>
+                <action behavior="Bullet" id="3" name="Set angle of motion" sid="392704011498790" type="Enemy">
+                    <param id="0" name="Angle">180</param>
+                </action>
+                <action behavior="Bullet" id="0" name="Set speed" sid="969296273481595" type="Enemy">
+                    <param id="0" name="Speed">200 / randomLength</param>
+                </action>
+                <action behavior="Bullet" id="5" name="Set enabled" sid="812396581834698" type="Enemy">
+                    <param id="0" name="State">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <comment>Destroys Enemies that got past the player</comment>
+        <event-block sid="736977829480971">
+            <conditions>
+                <condition id="-1" name="Compare X" sid="259385921305384" type="Enemy">
+                    <param id="0" name="Comparison">2</param>
+                    <param id="1" name="X co-ordinate">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" sid="224095912933770" type="Enemy" />
+                <action id="-11" name="Subtract from" sid="926558665670443" type="System">
+                    <param id="0" name="Variable">health</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="0" name="Set text" sid="627354631258659" type="Health">
+                    <param id="0" name="Text">&quot;Health: &quot; &amp; health</param>
+                </action>
+            </actions>
+        </event-block>
+        <comment>Player dies</comment>
+        <event-block sid="798362122142649">
+            <conditions>
+                <condition id="-14" name="Compare variable" sid="657984864310780" type="System">
+                    <param id="0" name="Variable">health</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-26" name="Restart layout" sid="645449439216939" type="System" />
+            </actions>
+        </event-block>
+        <comment>Displays what the Player types and destroys matching Enemy when enter is pressed</comment>
+        <event-group description="" sid="552816016280137" title="Keyboard Behavior">
+            <sub-events>
+                <event-block sid="630985606411650">
+                    <conditions>
+                        <condition id="1" name="On any key pressed" sid="999435208848557" type="Keyboard" />
+                        <condition id="-14" name="Compare variable" sid="884826682769133" type="System">
+                            <param id="0" name="Variable">stringLength</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Value">STRING_LIMIT</param>
+                        </condition>
+                        <condition id="2" inverted="1" name="Key is down" sid="967338783070778" type="Keyboard">
+                            <param id="0" name="Key">8</param>
+                        </condition>
+                        <condition id="2" inverted="1" name="Key is down" sid="662510832554702" type="Keyboard">
+                            <param id="0" name="Key">13</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="538898172803753" type="Player">
+                            <param id="0" name="Text">Player.Text &amp; Keyboard.StringFromKeyCode(Keyboard.LastKeyCode)</param>
+                        </action>
+                        <action id="-10" name="Add to" sid="322753908698509" type="System">
+                            <param id="0" name="Variable">stringLength</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="661807987571139">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="334721618430407" type="Keyboard">
+                            <param id="0" name="Key">13</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="806066194445209" type="System">
+                            <param id="0" name="Variable">stringLength</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="351926176348509" type="System">
+                            <param id="0" name="Variable">checkText</param>
+                            <param id="1" name="Value">Player.Text</param>
+                        </action>
+                        <action id="0" name="Set text" sid="583045176544305" type="Player">
+                            <param id="0" name="Text">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="770614842440299">
+                            <conditions>
+                                <condition id="-11" name="For Each" sid="775033719316764" type="System">
+                                    <param id="0" name="Object">Enemy</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="978136151209674">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="266243674976564" type="System">
+                                            <param id="0" name="First value">Enemy.Text</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">checkText</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="748439434332969" type="System">
+                                            <param id="0" name="Variable">checkText</param>
+                                            <param id="1" name="Value">&quot;&quot;</param>
+                                        </action>
+                                        <action id="-9" name="Destroy" sid="823556486507521" type="Enemy" />
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="236005265795271">
+                    <conditions>
+                        <condition id="2" name="Key is down" sid="545506733637643" type="Keyboard">
+                            <param id="0" name="Key">8</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" sid="726476615176768" type="System">
+                            <param id="0" name="Variable">stringLength</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="533203106098287">
+                            <conditions>
+                                <condition id="-6" name="Every X seconds" sid="948080462810920" type="System">
+                                    <param id="0" name="Interval (seconds)">0.1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Set text" sid="572148989042798" type="Player">
+                                    <param id="0" name="Text">left(Player.Text, len(Player.Text) - 1)</param>
+                                </action>
+                                <action id="-11" name="Subtract from" sid="112966517720640" type="System">
+                                    <param id="0" name="Variable">stringLength</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>
